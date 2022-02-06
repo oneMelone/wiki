@@ -7,7 +7,7 @@ import axios from 'axios';
 function Ebooks() {
   const [ebooks, setEbooks] = useState([{name: "loading"}]);
   useEffect(() => {
-    axios.get(process.env.REACT_APP_SERVER + "/ebook/list").then(
+    axios.get("/ebook/list").then(
       (response) => {
         setEbooks(response.data.content)
       }
