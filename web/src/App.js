@@ -8,6 +8,7 @@ import { Layout } from 'antd';
 import MainPage from './screens/main-page'
 import MainHeader from './components/header';
 import MainFooter from './components/footer';
+import AdminEbook from './screens/admin/admin-ebook';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <MainHeader />
         <Routes>
           <Route path="/" element={<MainPage />} />
+          <Route path="/admin/ebook" element={<AdminEbook />} />
         </Routes>
         <MainFooter />
       </Layout> 
