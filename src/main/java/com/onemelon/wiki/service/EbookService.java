@@ -5,10 +5,12 @@ import com.github.pagehelper.PageInfo;
 import com.onemelon.wiki.domain.Ebook;
 import com.onemelon.wiki.domain.EbookExample;
 import com.onemelon.wiki.mapper.EbookMapper;
-import com.onemelon.wiki.req.EbookReq;
-import com.onemelon.wiki.resp.EbookResp;
+import com.onemelon.wiki.req.EbookQueryReq;
+import com.onemelon.wiki.req.EbookSaveReq;
+import com.onemelon.wiki.resp.EbookQueryResp;
 import com.onemelon.wiki.resp.PageResp;
 import com.onemelon.wiki.util.CopyUtil;
+import com.onemelon.wiki.util.SnowFlake;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -20,7 +22,10 @@ public class EbookService {
     @Resource
     private EbookMapper ebookMapper;
 
-    public PageResp<EbookResp> list(EbookReq req) {
+    @Resource
+    private SnowFlake snowFlake;
+
+    public PageResp<EbookQueryResp> list(EbookQueryReq req) {
         EbookExample ebookExample = new EbookExample();
         EbookExample.Criteria criteria = ebookExample.createCriteria();
         if (!ObjectUtils.isEmpty(req.getName())) {
@@ -31,10 +36,25 @@ public class EbookService {
         List<Ebook> ebookList = ebookMapper.selectByExample(ebookExample);
 
         PageInfo<Ebook> pageInfo = new PageInfo<>(ebookList);
-        PageResp<EbookResp> pageResp = new PageResp<>();
-        List<EbookResp> list =  CopyUtil.copyList(ebookList, EbookResp.class);
+        PageResp<EbookQueryResp> pageResp = new PageResp<>();
+        List<EbookQueryResp> list =  CopyUtil.copyList(ebookList, EbookQueryResp.class);
         pageResp.setTotal(pageInfo.getTotal());
         pageResp.setList(list);
         return pageResp;
+    }
+
+    /**
+     * 保存
+     */
+    public void save(EbookSaveReq req) {
+        Ebook ebook = CopyUtil.copy(req, Ebook.class);
+        if (ObjectUtils.isEmpty(req.getId())) {
+            // 新增
+            ebook.setId(snowFlake.nextId());
+            ebookMapper.insert(ebook);
+        } else {
+            // 更新
+            ebookMapper.updateByPrimaryKey(ebook);
+        }
     }
 }

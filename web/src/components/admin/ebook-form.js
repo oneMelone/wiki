@@ -1,6 +1,8 @@
 import { Form, Input, Button } from 'antd';
 
 function EbookForm(props) {
+  const [form] = Form.useForm();
+  props.setForm(form);
   const onFinish = (values) => {
     console.log('Success:', values);
   };
@@ -11,10 +13,17 @@ function EbookForm(props) {
 
   return (
     <Form
-      name="basic"
+      name="ebook-form"
+      form={form}
       labelCol={{ span: 8 }}
       wrapperCol={{ span: 16 }}
-      initialValues={{ remember: true }}
+      initialValues={{
+        cover: props.cover,
+        name: props.name,
+        category1Id: props.category1Id,
+        category2Id: props.category2Id,
+        description: props.description,
+      }}
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
       autoComplete="off"
@@ -23,14 +32,14 @@ function EbookForm(props) {
         label="封面"
         name="cover"
       >
-        <Input placeholder={props.cover} />
+        <Input />
       </Form.Item>
 
       <Form.Item
         label="名称"
         name="name"
       >
-        <Input placeholder={props.name} />
+        <Input />
       </Form.Item>
 
       <Form.Item
@@ -52,12 +61,6 @@ function EbookForm(props) {
         name="description"
       >
         <Input />
-      </Form.Item>
-
-      <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-        <Button type="primary" htmlType="submit">
-          Submit
-        </Button>
       </Form.Item>
     </Form>
   );

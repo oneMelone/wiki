@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import EbookForm from './ebook-form';
 
-function EditButton(props) {
+function InsertButton(props) {
   const [visible, setVisible] = React.useState(false);
   const [confirmLoading, setConfirmLoading] = React.useState(false);
   const [modalText, setModalText] = React.useState('test');
@@ -22,9 +22,9 @@ function EditButton(props) {
     axios.post("/ebook/save", {
       ...form.getFieldsValue(),
       id: props.id,
-      docCount: props.docCount,
-      viewCount: props.viewCount,
-      voteCount: props.voteCount,
+      docCount: 0,
+      viewCount: 0,
+      voteCount: 0,
     }).then(
       (response) => {
         const data = response.data;
@@ -46,7 +46,7 @@ function EditButton(props) {
   return (
     <>
       <Button type="primary" onClick={showModal}>
-        编辑
+        新增
       </Button>
       <Modal
         title="电子书表单"
@@ -55,10 +55,10 @@ function EditButton(props) {
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
       >
-        <EbookForm name={props.name} cover={props.cover} category1Id={props.category1Id} category2Id={props.category2Id} description={props.description} setForm={setForm} />
+        <EbookForm setForm={setForm} />
       </Modal>
     </>
   );
 }
 
-export default EditButton;
+export default InsertButton;

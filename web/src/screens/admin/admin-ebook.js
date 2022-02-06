@@ -3,9 +3,10 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 import EditButton from "../../components/admin/edit-button";
+import InsertButton from "../../components/admin/insert-button";
 
 function AdminEbook() {
-  const PAGE_SIZE = 4;
+  const PAGE_SIZE = 8;
   const [data, setData] = useState([])
   useEffect(() => {
     let params = {
@@ -55,9 +56,9 @@ function AdminEbook() {
     {
       title: 'Action',
       key: 'action',
-      render: (_, record) => (
+      render: (_, record, index) => (
         <Space size="middle">  
-          <EditButton name={record.name} cover={record.cover} />
+          <EditButton name={record.name} cover={record.cover} category1Id={record.category1Id} docCount={record.docCount} category2Id={record.category2Id} description={data.list[index].description} viewCount={data.list[index].viewCount} voteCount={data.list[index].viewCount} id={data.list[index].id} />
           <a>删除</a>
         </Space>
       ),
@@ -79,6 +80,7 @@ function AdminEbook() {
   return (
     <Layout>
       <Table columns={columns} dataSource={data.list} pagination={{total: data.total, pageSize: PAGE_SIZE, onChange: getPageContent}}/>
+      <InsertButton />
     </Layout>
   )
 }

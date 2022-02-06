@@ -1,13 +1,12 @@
 package com.onemelon.wiki.controller;
 
-import com.onemelon.wiki.req.EbookReq;
+import com.onemelon.wiki.req.EbookQueryReq;
+import com.onemelon.wiki.req.EbookSaveReq;
 import com.onemelon.wiki.resp.CommonResp;
-import com.onemelon.wiki.resp.EbookResp;
+import com.onemelon.wiki.resp.EbookQueryResp;
 import com.onemelon.wiki.resp.PageResp;
 import com.onemelon.wiki.service.EbookService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -20,10 +19,17 @@ public class EbookController {
 
     // Controller层不要见到实体Ebook。
     @GetMapping("/list")
-    public CommonResp<PageResp<EbookResp>> list(EbookReq req) {
-        CommonResp<PageResp<EbookResp>> resp = new CommonResp<>();
-        PageResp<EbookResp> list =  ebookService.list(req);
+    public CommonResp<PageResp<EbookQueryResp>> list(EbookQueryReq req) {
+        CommonResp<PageResp<EbookQueryResp>> resp = new CommonResp<>();
+        PageResp<EbookQueryResp> list =  ebookService.list(req);
         resp.setContent(list);
+        return resp;
+    }
+
+    @PostMapping("/save")
+    public CommonResp save(@RequestBody EbookSaveReq req) {
+        CommonResp resp = new CommonResp<>();
+        ebookService.save(req);
         return resp;
     }
 }

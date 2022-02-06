@@ -1,6 +1,6 @@
-package com.onemelon.wiki.resp;
+package com.onemelon.wiki.req;
 
-public class EbookResp {
+public class EbookSaveReq {
     private Long id;
 
     private String name;
