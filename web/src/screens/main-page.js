@@ -6,7 +6,6 @@ import Ebooks from '../components/ebooks';
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
 
-
 function MainPage() {
   return (
     <div>

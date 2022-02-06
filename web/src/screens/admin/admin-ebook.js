@@ -2,16 +2,23 @@ import { Layout, Table, Space } from "antd";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+import EditButton from "../../components/admin/edit-button";
+
 function AdminEbook() {
+  const PAGE_SIZE = 4;
   const [data, setData] = useState([])
   useEffect(() => {
-    axios.get("/ebook/list").then(
+    let params = {
+      page: 1,
+      size: PAGE_SIZE,
+    }
+    axios.get("/ebook/list?page=" + params.page + "&size=" + params.size).then(
       (response) => {
-        let content = response.data.content;
-        content.forEach(element => {
+        let ebooks = response.data.content;
+        ebooks.list.forEach(element => {
           element.key = element.id;
         });
-        setData(content)
+        setData(ebooks)
       }
     )
   }, [])
@@ -48,17 +55,30 @@ function AdminEbook() {
     {
       title: 'Action',
       key: 'action',
-      render: () => (
-        <Space size="middle">
-          <a>编辑</a>
+      render: (_, record) => (
+        <Space size="middle">  
+          <EditButton name={record.name} cover={record.cover} />
           <a>删除</a>
         </Space>
       ),
     },
   ];
+
+  function getPageContent(page, pageSize) {
+    axios.get("/ebook/list?page=" + page + "&size=" + pageSize).then(
+      (response) => {
+        let ebooks = response.data.content;
+        ebooks.list.forEach(element => {
+          element.key = element.id;
+        });
+        setData(ebooks)
+      }
+    )
+  }
+
   return (
     <Layout>
-      <Table columns={columns} dataSource={data} />
+      <Table columns={columns} dataSource={data.list} pagination={{total: data.total, pageSize: PAGE_SIZE, onChange: getPageContent}}/>
     </Layout>
   )
 }

@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 function Ebooks() {
+  const PAGE_SIZE = 10;
   const [ebooks, setEbooks] = useState([]);
   useEffect(() => {
     axios.get("/ebook/list").then(
@@ -28,11 +29,16 @@ function Ebooks() {
     size="large"
     pagination={{
       onChange: page => {
-        console.log(page);
+        axios.get("/ebook/list?page=" + page + "&size=" + PAGE_SIZE).then(
+          (response) => {
+            setEbooks(response.data.content)
+          }
+        )
       },
-      pageSize: 10,
+      total: ebooks.total,
+      pageSize: PAGE_SIZE,
     }}
-    dataSource={ebooks}
+    dataSource={ebooks.list}
     renderItem={item => (
       <List.Item
         key={item.name}
