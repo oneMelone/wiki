@@ -7,7 +7,7 @@ import axios from 'axios';
 function Ebooks() {
   const [ebooks, setEbooks] = useState([{name: "loading"}]);
   useEffect(() => {
-    axios.get("http://127.0.0.1:8000/ebook/list?name=Spring").then(
+    axios.get(process.env.REACT_APP_SERVER + "/ebook/list").then(
       (response) => {
         setEbooks(response.data.content)
       }
@@ -30,7 +30,7 @@ function Ebooks() {
       onChange: page => {
         console.log(page);
       },
-      pageSize: 3,
+      pageSize: 10,
     }}
     dataSource={ebooks}
     renderItem={item => (

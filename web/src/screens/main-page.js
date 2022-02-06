@@ -1,7 +1,5 @@
 import { Layout, Menu } from 'antd';
 import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
 
 import Ebooks from '../components/ebooks';
 
@@ -10,15 +8,6 @@ const { Content, Sider } = Layout;
 
 
 function MainPage() {
-  const [ebooks, setEbooks] = useState([{name: "loading"}]);
-  useEffect(() => {
-    console.log("setup")
-    axios.get("http://127.0.0.1:8000/ebook/list?name=Spring").then(
-      (response) => {
-        setEbooks(response.data.content)
-      }
-    )
-  }, [])
   return (
     <div>
       <Layout>
