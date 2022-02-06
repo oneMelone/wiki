@@ -1,4 +1,4 @@
-import { Modal, Button } from 'antd';
+import { Modal, Button, message } from 'antd';
 import React from 'react';
 import axios from 'axios';
 
@@ -33,6 +33,9 @@ function EditButton(props) {
           setConfirmLoading(false);
 
           window.location.reload();
+        } else {
+          message.error(data.message);
+          setConfirmLoading(false);
         }
       }
     )
