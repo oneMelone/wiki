@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 function Ebooks() {
-  const [ebooks, setEbooks] = useState([{name: "loading"}]);
+  const [ebooks, setEbooks] = useState([]);
   useEffect(() => {
     axios.get("/ebook/list").then(
       (response) => {

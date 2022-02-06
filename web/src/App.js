@@ -1,5 +1,9 @@
 import './App.css';
 import "antd/dist/antd.css";
+import {
+  Routes,
+  Route
+} from "react-router-dom";
 import { Layout } from 'antd';
 import MainPage from './screens/main-page'
 import MainHeader from './components/header';
@@ -10,7 +14,9 @@ function App() {
     <div className="App">
       <Layout>
         <MainHeader />
-        <MainPage />
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+        </Routes>
         <MainFooter />
       </Layout> 
     </div>
