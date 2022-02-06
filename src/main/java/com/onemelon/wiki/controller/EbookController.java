@@ -9,6 +9,7 @@ import com.onemelon.wiki.service.EbookService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/ebook")
@@ -19,7 +20,7 @@ public class EbookController {
 
     // Controller层不要见到实体Ebook。
     @GetMapping("/list")
-    public CommonResp<PageResp<EbookQueryResp>> list(EbookQueryReq req) {
+    public CommonResp<PageResp<EbookQueryResp>> list(@Valid EbookQueryReq req) {
         CommonResp<PageResp<EbookQueryResp>> resp = new CommonResp<>();
         PageResp<EbookQueryResp> list =  ebookService.list(req);
         resp.setContent(list);
