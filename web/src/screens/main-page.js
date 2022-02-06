@@ -3,8 +3,11 @@ import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
+import Ebooks from '../components/ebooks';
+
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
+
 
 function MainPage() {
   const [ebooks, setEbooks] = useState([{name: "loading"}]);
@@ -55,7 +58,7 @@ function MainPage() {
                 minHeight: 280,
               }}
             >
-              {ebooks[0].name}
+              <Ebooks />
             </Content>
           </Layout>
         </Layout>
