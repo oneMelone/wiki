@@ -4,6 +4,7 @@ import axios from "axios";
 
 import EditButton from "../../components/admin/edit-button";
 import InsertButton from "../../components/admin/insert-button";
+import DeleteButton from "../../components/admin/delete-button";
 
 function AdminEbook() {
   const PAGE_SIZE = 8;
@@ -59,7 +60,7 @@ function AdminEbook() {
       render: (_, record, index) => (
         <Space size="middle">  
           <EditButton name={record.name} cover={record.cover} category1Id={record.category1Id} docCount={record.docCount} category2Id={record.category2Id} description={data.list[index].description} viewCount={data.list[index].viewCount} voteCount={data.list[index].viewCount} id={data.list[index].id} />
-          <a>删除</a>
+          <DeleteButton id={data.list[index].id} />
         </Space>
       ),
     },
