@@ -1,7 +1,26 @@
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Cascader } from 'antd';
+import axios from 'axios';
+import { useState, useEffect } from 'react';
+import { Tool } from '../../../util/tool';
 
 function EbookForm(props) {
   const [form] = Form.useForm();
+  const [categories, setCategories] = useState();
+  useEffect(() => {
+    axios.get("/category/list?page=" + 1 + "&size=" + 100).then(
+      (response) => {
+        let categorys = response.data.content;
+        categorys.list.forEach(element => {
+          element.value = element.id;
+          element.label = element.name;
+          element.key = element.id;
+        });
+        categorys.list = Tool.array2Tree(categorys.list, 0);
+        setCategories(categorys.list);
+      }
+    )
+  }, [])
+  
   props.setForm(form);
   const onFinish = (values) => {
     console.log('Success:', values);
@@ -20,8 +39,7 @@ function EbookForm(props) {
       initialValues={{
         cover: props.cover,
         name: props.name,
-        category1Id: props.category1Id,
-        category2Id: props.category2Id,
+        category: [props.category1Id, props.category2Id],
         description: props.description,
       }}
       onFinish={onFinish}
@@ -43,17 +61,10 @@ function EbookForm(props) {
       </Form.Item>
 
       <Form.Item
-        label="分类1"
-        name="category1Id"
+        label="分类"
+        name="category"
       >
-        <Input />
-      </Form.Item>
-
-      <Form.Item
-        label="分类2"
-        name="category2Id"
-      >
-        <Input />
+        <Cascader options={categories} placeholder="请选择分类" />
       </Form.Item>
 
       <Form.Item

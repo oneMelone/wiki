@@ -20,6 +20,8 @@ function EditButton(props) {
     setConfirmLoading(true);
     axios.post("/ebook/save", {
       ...form.getFieldsValue(),
+      category1Id: form.getFieldsValue()['category'][0],
+      category2Id: form.getFieldsValue()['category'][1],
       id: props.id,
       docCount: props.docCount,
       viewCount: props.viewCount,

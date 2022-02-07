@@ -6,10 +6,12 @@ import EditButton from "../../components/admin/ebook/edit-button";
 import DeleteButton from "../../components/admin/ebook/delete-button";
 import QueryEbook from "../../components/admin/ebook/query";
 import { Content } from "antd/lib/layout/layout";
+import getCategoryNameById from "../../util/getCategoryNameById";
 
 function AdminEbook() {
   const PAGE_SIZE = 8;
-  const [data, setData] = useState([])
+  const [data, setData] = useState([]);
+  const [plainCategories, setPlainCategories] = useState([]);
   useEffect(() => {
     let params = {
       page: 1,
@@ -22,6 +24,15 @@ function AdminEbook() {
           element.key = element.id;
         });
         setData(ebooks)
+      }
+    )
+    axios.get("/category/list?page=" + 1 + "&size=" + 100).then(
+      (response) => {
+        let categorys = response.data.content;
+        categorys.list.forEach(element => {
+          element.key = element.id;
+        });
+        setPlainCategories(categorys.list);
       }
     )
   }, [])
@@ -41,14 +52,12 @@ function AdminEbook() {
       key: 'name',
     },
     {
-      title: '分类1',
-      dataIndex: 'category1Id',
-      key: 'category1Id',
-    },
-    {
-      title: '分类2',
-      dataIndex: 'category2Id',
-      key: 'category2Id',
+      title: '分类',
+      dataIndex: 'category',
+      key: 'category',
+      render: (_, record) => (
+        <div>{getCategoryNameById(plainCategories, record.category1Id)} / {getCategoryNameById(plainCategories, record.category2Id)}</div>
+      )
     },
     {
       title: '文档数',
