@@ -2,14 +2,14 @@ import { Layout, Table, Space } from "antd";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-import EditButton from "../../components/admin/category/edit-button";
-import DeleteButton from "../../components/admin/category/delete-button";
-import QueryCategory from "../../components/admin/category/query";
+import EditButton from "../../components/admin/doc/edit-button";
+import DeleteButton from "../../components/admin/doc/delete-button";
+import QueryDoc from "../../components/admin/doc/query";
 import { Content } from "antd/lib/layout/layout";
 import { Tool } from "../../util/tool";
 import getNameById from "../../util/getNameById";
 
-function AdminCategory() {
+function AdminDoc() {
   const PAGE_SIZE = 100;
   const [data, setData] = useState({});
   const [plainCategories, setPlainCategories] = useState();
@@ -18,15 +18,15 @@ function AdminCategory() {
       page: 1,
       size: PAGE_SIZE,
     }
-    axios.get("/category/list?page=" + params.page + "&size=" + params.size).then(
+    axios.get("/doc/list?page=" + params.page + "&size=" + params.size).then(
       (response) => {
-        let categorys = response.data.content;
-        categorys.list.forEach(element => {
+        let docs = response.data.content;
+        docs.list.forEach(element => {
           element.key = element.id;
         });
-        setPlainCategories(categorys.list);
-        categorys.list = Tool.array2Tree(categorys.list, 0);
-        setData(categorys)
+        setPlainCategories(docs.list);
+        docs.list = Tool.array2Tree(docs.list, 0);
+        setData(docs)
       }
     )
   }, [])
@@ -43,7 +43,7 @@ function AdminCategory() {
       key: 'sort',
     },
     {
-      title: '父分类',
+      title: '父文档',
       dataIndex: 'parent',
       key: 'parent',
       render: (_, record) => (
@@ -55,7 +55,7 @@ function AdminCategory() {
       key: 'action',
       render: (_, record) => (
         <Space size="middle">  
-          <EditButton categoryList={data.list} name={record.name} sort={record.sort} parent={record.parent} id={record.id} />
+          <EditButton docList={data.list} name={record.name} sort={record.sort} parent={record.parent} id={record.id} />
           <DeleteButton id={record.id} />
         </Space>
       ),
@@ -63,13 +63,13 @@ function AdminCategory() {
   ];
 
   function getPageContent(page, pageSize) {
-    axios.get("/category/list?page=" + page + "&size=" + pageSize).then(
+    axios.get("/doc/list?page=" + page + "&size=" + pageSize).then(
       (response) => {
-        let categorys = response.data.content;
-        categorys.list.forEach(element => {
+        let docs = response.data.content;
+        docs.list.forEach(element => {
           element.key = element.id;
         });
-        setData(categorys)
+        setData(docs)
       }
     )
   }
@@ -77,11 +77,11 @@ function AdminCategory() {
   return (
     <Layout>
       <Content style={{ padding: '10px 30px' }}>
-      <QueryCategory setData={setData}/>
+      <QueryDoc setData={setData}/>
       </Content >
       <Table columns={columns} dataSource={data.list} pagination={{total: data.total, pageSize: PAGE_SIZE, onChange: getPageContent}}/>
     </Layout>
   )
 }
 
-export default AdminCategory;
+export default AdminDoc;

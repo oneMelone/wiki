@@ -1,4 +1,4 @@
-function getCategoryNameById(categories, id) {
+function getNameById(categories, id) {
   if (id == 0) return "无";
   for (let i in categories) {
     let element = categories[i];
@@ -9,4 +9,4 @@ function getCategoryNameById(categories, id) {
   return "wrong id";
 }
 
-export default getCategoryNameById;
+export default getNameById;

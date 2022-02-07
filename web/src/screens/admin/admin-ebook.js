@@ -6,7 +6,8 @@ import EditButton from "../../components/admin/ebook/edit-button";
 import DeleteButton from "../../components/admin/ebook/delete-button";
 import QueryEbook from "../../components/admin/ebook/query";
 import { Content } from "antd/lib/layout/layout";
-import getCategoryNameById from "../../util/getCategoryNameById";
+import getNameById from "../../util/getNameById";
+import DocAdminButton from "../../components/admin/ebook/doc-admin-button";
 
 function AdminEbook() {
   const PAGE_SIZE = 8;
@@ -56,7 +57,7 @@ function AdminEbook() {
       dataIndex: 'category',
       key: 'category',
       render: (_, record) => (
-        <div>{getCategoryNameById(plainCategories, record.category1Id)} / {getCategoryNameById(plainCategories, record.category2Id)}</div>
+        <div>{getNameById(plainCategories, record.category1Id)} / {getNameById(plainCategories, record.category2Id)}</div>
       )
     },
     {
@@ -70,6 +71,7 @@ function AdminEbook() {
       render: (_, record, index) => (
         <Space size="middle">  
           <EditButton name={record.name} cover={record.cover} category1Id={record.category1Id} docCount={record.docCount} category2Id={record.category2Id} description={record.description} viewCount={record.viewCount} voteCount={record.viewCount} id={record.id} />
+          <DocAdminButton />
           <DeleteButton id={record.id} />
         </Space>
       ),

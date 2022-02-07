@@ -10,6 +10,7 @@ import MainHeader from './components/header';
 import MainFooter from './components/footer';
 import AdminEbook from './screens/admin/admin-ebook';
 import AdminCategory from './screens/admin/admin-category';
+import AdminDoc from './screens/admin/admin-doc';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/" element={<MainPage />} />
           <Route path="/admin/ebook" element={<AdminEbook />} />
           <Route path="/admin/category" element={<AdminCategory />} />
+          <Route path="/admin/doc" element={<AdminDoc />} />
         </Routes>
         <MainFooter />
       </Layout> 

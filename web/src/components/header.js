@@ -18,6 +18,9 @@ function MainHeader() {
         <Link to="/admin/category">分类管理</Link>
       </Menu.Item>
       <Menu.Item key="4">
+        <Link to="/admin/doc">文档管理</Link>
+      </Menu.Item>
+      <Menu.Item key="5">
         <Link to="about">关于我们</Link>
       </Menu.Item>
       </Menu>
