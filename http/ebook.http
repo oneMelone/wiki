@@ -1,4 +1,4 @@
-GET http://localhost:8000/ebook/list?page=1&size=10&name=spring
+GET http://localhost:8000/ebook/list?page=1&size=10&categoryId2=202
 
 ###
 

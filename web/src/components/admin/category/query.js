@@ -6,22 +6,22 @@ import axios from 'axios';
 function QueryCategory(props) {
   const [form] = Form.useForm();
 
-  let query = () => {
-    let name = form.getFieldsValue();
-    console.log("name.condition =", name.condition);
-    axios.get("/category/list", {
-    params: {
-      page: 1,
-      size: 100,
-    }
-    }).then((response) => {
-      let categorys = response.data.content;
-        categorys.list.forEach(element => {
-          element.key = element.id;
-        });
-      props.setData(categorys);
-    })
-  }
+  // let query = () => {
+  //   let name = form.getFieldsValue();
+  //   console.log("name.condition =", name.condition);
+  //   axios.get("/category/list", {
+  //   params: {
+  //     page: 1,
+  //     size: 100,
+  //   }
+  //   }).then((response) => {
+  //     let categorys = response.data.content;
+  //       categorys.list.forEach(element => {
+  //         element.key = element.id;
+  //       });
+  //     props.setData(categorys);
+  //   })
+  // }
 
   return (
     <Form

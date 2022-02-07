@@ -1,19 +1,10 @@
 import { List, Avatar, Space } from 'antd';
 import { MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons';
 import React from 'react';
-import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-function Ebooks() {
+function Ebooks(props) {
   const PAGE_SIZE = 10;
-  const [ebooks, setEbooks] = useState([]);
-  useEffect(() => {
-    axios.get("/ebook/list").then(
-      (response) => {
-        setEbooks(response.data.content)
-      }
-    )
-  }, [])
 
   const IconText = ({ icon, text }) => (
     <Space>
@@ -27,18 +18,19 @@ function Ebooks() {
     grid={{ gutter: 20, column: 2 }}
     itemLayout="vertical"
     size="large"
+    // todo: fix this, add catigoryId
     pagination={{
       onChange: page => {
         axios.get("/ebook/list?page=" + page + "&size=" + PAGE_SIZE).then(
           (response) => {
-            setEbooks(response.data.content)
+            props.setEbooks(response.data.content)
           }
         )
       },
-      total: ebooks.total,
+      total: props.ebooks.total,
       pageSize: PAGE_SIZE,
     }}
-    dataSource={ebooks.list}
+    dataSource={props.ebooks.list}
     renderItem={item => (
       <List.Item
         key={item.name}

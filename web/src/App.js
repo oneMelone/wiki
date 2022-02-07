@@ -5,7 +5,7 @@ import {
   Route
 } from "react-router-dom";
 import { Layout } from 'antd';
-import MainPage from './screens/main-page'
+import MainPage from './screens/main-page/main-page'
 import MainHeader from './components/header';
 import MainFooter from './components/footer';
 import AdminEbook from './screens/admin/admin-ebook';
