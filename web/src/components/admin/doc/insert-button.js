@@ -3,6 +3,8 @@ import React from 'react';
 import axios from 'axios';
 
 import DocForm from './doc-form';
+import { parse } from "query-string"
+import { useLocation } from 'react-router-dom';
 
 function InsertButton(props) {
   const [visible, setVisible] = React.useState(false);
@@ -16,12 +18,16 @@ function InsertButton(props) {
     setVisible(true);
   };
 
+  let ebookId = parse(useLocation().search).ebookId
   const handleOk = () => {
     setConfirmLoading(true);
-    axios.post("/doc/save", {
+    let postParams = {
       ...form.getFieldsValue(),
       id: props.id,
-    }).then(
+      ebookId: ebookId,
+    }
+    console.log("postParams =", postParams);
+    axios.post("/doc/save", postParams).then(
       (response) => {
         const data = response.data;
         if (data.success) {

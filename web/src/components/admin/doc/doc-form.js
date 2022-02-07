@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { Tool } from '../../../util/tool';
 import axios from 'axios';
 import setTreeNodeDisabled from '../../../util/setTreeNodeDisabled';
+import { useSearchParams } from 'react-router-dom';
 
 function DocForm(props) {
   const [form] = Form.useForm();

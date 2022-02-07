@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Form, Input, Button } from 'antd';
 import InsertButton from './insert-button';
 import axios from 'axios';
 
 function QueryDoc(props) {
   const [form] = Form.useForm();
+
+  useEffect(() => {
+    console.log("in QueryDoc, props =", props);
+  }, [])
 
   // let query = () => {
   //   let name = form.getFieldsValue();
@@ -41,7 +45,7 @@ function QueryDoc(props) {
           查询
         </Button>
       </Form.Item> */}
-      <InsertButton />
+      <InsertButton ebookId={props.ebookId} />
     </Form>
   )
 }

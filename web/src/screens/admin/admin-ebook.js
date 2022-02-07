@@ -71,7 +71,7 @@ function AdminEbook() {
       render: (_, record, index) => (
         <Space size="middle">  
           <EditButton name={record.name} cover={record.cover} category1Id={record.category1Id} docCount={record.docCount} category2Id={record.category2Id} description={record.description} viewCount={record.viewCount} voteCount={record.viewCount} id={record.id} />
-          <DocAdminButton />
+          <DocAdminButton ebookId={record.id}/>
           <DeleteButton id={record.id} />
         </Space>
       ),

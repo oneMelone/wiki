@@ -8,12 +8,18 @@ import QueryDoc from "../../components/admin/doc/query";
 import { Content } from "antd/lib/layout/layout";
 import { Tool } from "../../util/tool";
 import getNameById from "../../util/getNameById";
+import { useLocation, useParams } from "react-router-dom";
+import {parse} from "query-string"
 
-function AdminDoc() {
+function AdminDoc(props) {
   const PAGE_SIZE = 100;
   const [data, setData] = useState({});
   const [plainCategories, setPlainCategories] = useState();
+  const [ebookId, setEbookId] = useState(1);
+  let ebookIdTemp = parse(useLocation.search).ebookId
   useEffect(() => {
+    setEbookId(ebookIdTemp);
+    console.log("ebookId =", ebookId);
     let params = {
       page: 1,
       size: PAGE_SIZE,
@@ -55,8 +61,8 @@ function AdminDoc() {
       key: 'action',
       render: (_, record) => (
         <Space size="middle">  
-          <EditButton docList={data.list} name={record.name} sort={record.sort} parent={record.parent} id={record.id} />
-          <DeleteButton id={record.id} />
+          <EditButton ebookId={ebookId} docList={data.list} name={record.name} sort={record.sort} parent={record.parent} id={record.id} />
+          <DeleteButton ebookId={ebookId} id={record.id} />
         </Space>
       ),
     },
@@ -77,7 +83,7 @@ function AdminDoc() {
   return (
     <Layout>
       <Content style={{ padding: '10px 30px' }}>
-      <QueryDoc setData={setData}/>
+      <QueryDoc ebookId={ebookId} setData={setData}/>
       </Content >
       <Table columns={columns} dataSource={data.list} pagination={{total: data.total, pageSize: PAGE_SIZE, onChange: getPageContent}}/>
     </Layout>

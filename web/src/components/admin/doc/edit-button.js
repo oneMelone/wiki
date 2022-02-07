@@ -1,8 +1,10 @@
 import { Modal, Button, message } from 'antd';
-import React, { useEffect } from 'react';
+import React from 'react';
 import axios from 'axios';
 
 import DocForm from './doc-form';
+import {parse} from "query-string"
+import { useLocation } from 'react-router-dom';
 
 function EditButton(props) {
   const [visible, setVisible] = React.useState(false);
@@ -16,11 +18,13 @@ function EditButton(props) {
     setVisible(true);
   };
 
+  let ebookId = parse(useLocation().search).ebookId;
   const handleOk = () => {
     setConfirmLoading(true);
     axios.post("/doc/save", {
       ...form.getFieldsValue(),
       id: props.id,
+      ebookId: ebookId,
     }).then(
       (response) => {
         const data = response.data;

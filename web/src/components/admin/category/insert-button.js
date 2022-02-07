@@ -21,6 +21,7 @@ function InsertButton(props) {
     axios.post("/category/save", {
       ...form.getFieldsValue(),
       id: props.id,
+      ebookId: props.ebookId,
     }).then(
       (response) => {
         const data = response.data;
