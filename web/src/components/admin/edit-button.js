@@ -7,7 +7,6 @@ import EbookForm from './ebook-form';
 function EditButton(props) {
   const [visible, setVisible] = React.useState(false);
   const [confirmLoading, setConfirmLoading] = React.useState(false);
-  const [modalText, setModalText] = React.useState('test');
 
   let form;
   const setForm = (data) => {

@@ -5,6 +5,8 @@ import axios from "axios";
 import EditButton from "../../components/admin/edit-button";
 import InsertButton from "../../components/admin/insert-button";
 import DeleteButton from "../../components/admin/delete-button";
+import QueryEbook from "../../components/admin/query";
+import { Content } from "antd/lib/layout/layout";
 
 function AdminEbook() {
   const PAGE_SIZE = 8;
@@ -80,8 +82,10 @@ function AdminEbook() {
 
   return (
     <Layout>
+      <Content style={{ padding: '10px 30px' }}>
+      <QueryEbook setData={setData}/>
+      </Content >
       <Table columns={columns} dataSource={data.list} pagination={{total: data.total, pageSize: PAGE_SIZE, onChange: getPageContent}}/>
-      <InsertButton />
     </Layout>
   )
 }
