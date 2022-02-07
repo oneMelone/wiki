@@ -61,8 +61,8 @@ function AdminDoc(props) {
       key: 'action',
       render: (_, record) => (
         <Space size="middle">  
-          <EditButton ebookId={ebookId} docList={data.list} name={record.name} sort={record.sort} parent={record.parent} id={record.id} />
-          <DeleteButton ebookId={ebookId} id={record.id} />
+          <EditButton docList={data.list} name={record.name} sort={record.sort} parent={record.parent} id={record.id} />
+          <DeleteButton id={record.id} docList={data.list} />
         </Space>
       ),
     },
@@ -83,7 +83,7 @@ function AdminDoc(props) {
   return (
     <Layout>
       <Content style={{ padding: '10px 30px' }}>
-      <QueryDoc ebookId={ebookId} setData={setData}/>
+      <QueryDoc setData={setData}/>
       </Content >
       <Table columns={columns} dataSource={data.list} pagination={{total: data.total, pageSize: PAGE_SIZE, onChange: getPageContent}}/>
     </Layout>

@@ -1,6 +1,7 @@
 import { Button, Popconfirm } from 'antd';
 import React from 'react';
 import axios from 'axios';
+import findNodesOfSubTree from '../../../util/findNodesOfSubtree';
 
 function DeleteButton(props) {
   function confirm(e) {
@@ -13,7 +14,9 @@ function DeleteButton(props) {
   }
 
   function deleteDoc() {
-    axios.delete("/doc/delete/" + props.id).then(
+    let deleteArr = [];
+    findNodesOfSubTree(props.docList, props.id, deleteArr);
+    axios.delete("/doc/delete/" + deleteArr.join(",")).then(
       (response) => {
         const data = response.data;
         if (data.success) {

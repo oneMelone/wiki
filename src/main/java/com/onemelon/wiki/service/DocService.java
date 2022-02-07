@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -57,5 +58,16 @@ public class DocService {
 
     public void delete(Long id) {
         docMapper.deleteByPrimaryKey(id);
+    }
+
+    public void delete(List<String> ids) {
+        DocExample docExample = new DocExample();
+        DocExample.Criteria criteria  = docExample.createCriteria();
+        List<Long> criteriaArr = new ArrayList<>();
+        for (String id : ids) {
+            criteriaArr.add(Long.valueOf(id));
+        }
+        criteria.andIdIn(criteriaArr);
+        docMapper.deleteByExample(docExample);
     }
 }
