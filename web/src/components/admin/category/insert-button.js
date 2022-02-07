@@ -21,9 +21,6 @@ function InsertButton(props) {
     axios.post("/category/save", {
       ...form.getFieldsValue(),
       id: props.id,
-      docCount: 0,
-      viewCount: 0,
-      voteCount: 0,
     }).then(
       (response) => {
         const data = response.data;

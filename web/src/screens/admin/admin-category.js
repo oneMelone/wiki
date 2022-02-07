@@ -6,10 +6,11 @@ import EditButton from "../../components/admin/category/edit-button";
 import DeleteButton from "../../components/admin/category/delete-button";
 import QueryCategory from "../../components/admin/category/query";
 import { Content } from "antd/lib/layout/layout";
+import { Tool } from "../../util/tool";
 
 function AdminCategory() {
-  const PAGE_SIZE = 8;
-  const [data, setData] = useState([])
+  const PAGE_SIZE = 100;
+  const [data, setData] = useState({})
   useEffect(() => {
     let params = {
       page: 1,
@@ -21,10 +22,15 @@ function AdminCategory() {
         categorys.list.forEach(element => {
           element.key = element.id;
         });
+        categorys.list = Tool.array2Tree(categorys.list, 0);
         setData(categorys)
       }
     )
   }, [])
+
+  useEffect(() => {
+    console.log("data.list =", data.list);
+  })
 
   const columns = [
     {
@@ -45,10 +51,10 @@ function AdminCategory() {
     {
       title: 'Action',
       key: 'action',
-      render: (_, record, index) => (
+      render: (_, record) => (
         <Space size="middle">  
-          <EditButton name={record.name} sort={record.sort} parent={record.parent} id={data.list[index].id} />
-          <DeleteButton id={data.list[index].id} />
+          <EditButton categoryList={data.list} name={record.name} sort={record.sort} parent={record.parent} id={record.id} />
+          <DeleteButton id={record.id} />
         </Space>
       ),
     },
@@ -69,7 +75,7 @@ function AdminCategory() {
   return (
     <Layout>
       <Content style={{ padding: '10px 30px' }}>
-      <QueryCategory setData={setData}/>
+      <QueryCategory categoryList={data.list} setData={setData}/>
       </Content >
       <Table columns={columns} dataSource={data.list} pagination={{total: data.total, pageSize: PAGE_SIZE, onChange: getPageContent}}/>
     </Layout>

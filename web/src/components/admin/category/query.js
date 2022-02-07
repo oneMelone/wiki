@@ -6,14 +6,13 @@ import axios from 'axios';
 function QueryCategory(props) {
   const [form] = Form.useForm();
 
-  let queryByName = () => {
+  let query = () => {
     let name = form.getFieldsValue();
     console.log("name.condition =", name.condition);
     axios.get("/category/list", {
     params: {
       page: 1,
-      size: 8,
-      name: name.condition
+      size: 100,
     }
     }).then((response) => {
       let categorys = response.data.content;
@@ -36,16 +35,12 @@ function QueryCategory(props) {
         },
       }}
     >
-      <Form.Item
-        name="condition"
-      >
-        <Input placeholder='按名称查询'/>
-      </Form.Item>
-      <Form.Item>
-        <Button type="primary" onClick={queryByName}>
+
+      {/* <Form.Item>
+        <Button type="primary" onClick={query}>
           查询
         </Button>
-      </Form.Item>
+      </Form.Item> */}
       <InsertButton />
     </Form>
   )

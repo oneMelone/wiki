@@ -1,5 +1,5 @@
 import { Modal, Button, message } from 'antd';
-import React from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 
 import CategoryForm from './category-form';
@@ -21,9 +21,6 @@ function EditButton(props) {
     axios.post("/category/save", {
       ...form.getFieldsValue(),
       id: props.id,
-      docCount: props.docCount,
-      viewCount: props.viewCount,
-      voteCount: props.voteCount,
     }).then(
       (response) => {
         const data = response.data;
@@ -57,7 +54,7 @@ function EditButton(props) {
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
       >
-        <CategoryForm name={props.name} parent={props.parent} sort={props.sort} setForm={setForm} />
+        <CategoryForm categoryList={props.categoryList} name={props.name} parent={props.parent} sort={props.sort} setForm={setForm} />
       </Modal>
     </>
   );
