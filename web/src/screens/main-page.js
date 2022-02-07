@@ -1,7 +1,7 @@
 import { Layout, Menu } from 'antd';
 import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
 
-import Ebooks from '../components/ebooks';
+import Ebooks from '../components/main-page/ebooks';
 
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;

@@ -15,6 +15,9 @@ function MainHeader() {
         <Link to="/admin/ebook">电子书管理</Link>
       </Menu.Item>
       <Menu.Item key="3">
+        <Link to="/admin/category">分类管理</Link>
+      </Menu.Item>
+      <Menu.Item key="4">
         <Link to="about">关于我们</Link>
       </Menu.Item>
       </Menu>

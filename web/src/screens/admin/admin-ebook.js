@@ -2,10 +2,9 @@ import { Layout, Table, Space } from "antd";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-import EditButton from "../../components/admin/edit-button";
-import InsertButton from "../../components/admin/insert-button";
-import DeleteButton from "../../components/admin/delete-button";
-import QueryEbook from "../../components/admin/query";
+import EditButton from "../../components/admin/ebook/edit-button";
+import DeleteButton from "../../components/admin/ebook/delete-button";
+import QueryEbook from "../../components/admin/ebook/query";
 import { Content } from "antd/lib/layout/layout";
 
 function AdminEbook() {

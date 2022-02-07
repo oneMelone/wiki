@@ -9,6 +9,7 @@ import MainPage from './screens/main-page'
 import MainHeader from './components/header';
 import MainFooter from './components/footer';
 import AdminEbook from './screens/admin/admin-ebook';
+import AdminCategory from './screens/admin/admin-category';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/admin/ebook" element={<AdminEbook />} />
+          <Route path="/admin/category" element={<AdminCategory />} />
         </Routes>
         <MainFooter />
       </Layout> 
