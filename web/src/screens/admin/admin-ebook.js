@@ -11,8 +11,8 @@ import DocAdminButton from "../../components/admin/ebook/doc-admin-button";
 
 function AdminEbook() {
   const PAGE_SIZE = 8;
-  const [data, setData] = useState([]);
-  const [plainCategories, setPlainCategories] = useState([]);
+  let [data, setData] = useState([]);
+  let [plainCategories, setPlainCategories] = useState([]);
   useEffect(() => {
     let params = {
       page: 1,
@@ -33,6 +33,7 @@ function AdminEbook() {
         categorys.list.forEach(element => {
           element.key = element.id;
         });
+        plainCategories = categorys.list;
         setPlainCategories(categorys.list);
       }
     )
@@ -68,7 +69,7 @@ function AdminEbook() {
     {
       title: 'Action',
       key: 'action',
-      render: (_, record, index) => (
+      render: (_, record) => (
         <Space size="middle">  
           <EditButton name={record.name} cover={record.cover} category1Id={record.category1Id} docCount={record.docCount} category2Id={record.category2Id} description={record.description} viewCount={record.viewCount} voteCount={record.viewCount} id={record.id} />
           <DocAdminButton ebookId={record.id}/>
