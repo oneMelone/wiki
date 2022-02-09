@@ -8,31 +8,24 @@ import QueryDoc from "../../components/admin/doc/query";
 import { Content } from "antd/lib/layout/layout";
 import { Tool } from "../../util/tool";
 import getNameById from "../../util/getNameById";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import {parse} from "query-string"
 
 function AdminDoc(props) {
   const PAGE_SIZE = 100;
-  const [data, setData] = useState({});
-  const [plainCategories, setPlainCategories] = useState();
-  const [ebookId, setEbookId] = useState(1);
-  let ebookIdTemp = parse(useLocation.search).ebookId
+  let [data, setData] = useState();
+  let [plainCategories, setPlainCategories] = useState();
+  let ebookIdTemp = parse(useLocation().search).ebookId;
   useEffect(() => {
-    setEbookId(ebookIdTemp);
-    console.log("ebookId =", ebookId);
-    let params = {
-      page: 1,
-      size: PAGE_SIZE,
-    }
-    axios.get("/doc/list?page=" + params.page + "&size=" + params.size).then(
+    axios.get("/doc/all/" + ebookIdTemp).then(
       (response) => {
-        let docs = response.data.content;
-        docs.list.forEach(element => {
-          element.key = element.id;
-        });
-        setPlainCategories(docs.list);
-        docs.list = Tool.array2Tree(docs.list, 0);
-        setData(docs)
+        let list = response.data.content;
+        for (let i in list) {
+          list[i].key = list[i].id;
+        }
+        setPlainCategories(list);
+        let treeData = Tool.array2Tree(list, 0);
+        setData(treeData);
       }
     )
   }, [])
@@ -61,31 +54,19 @@ function AdminDoc(props) {
       key: 'action',
       render: (_, record) => (
         <Space size="middle">  
-          <EditButton docList={data.list} name={record.name} sort={record.sort} parent={record.parent} id={record.id} />
-          <DeleteButton id={record.id} docList={data.list} />
+          <EditButton docList={data} name={record.name} sort={record.sort} parent={record.parent} id={record.id} />
+          <DeleteButton id={record.id} docList={data} />
         </Space>
       ),
     },
   ];
-
-  function getPageContent(page, pageSize) {
-    axios.get("/doc/list?page=" + page + "&size=" + pageSize).then(
-      (response) => {
-        let docs = response.data.content;
-        docs.list.forEach(element => {
-          element.key = element.id;
-        });
-        setData(docs)
-      }
-    )
-  }
 
   return (
     <Layout>
       <Content style={{ padding: '10px 30px' }}>
       <QueryDoc setData={setData}/>
       </Content >
-      <Table columns={columns} dataSource={data.list} pagination={{total: data.total, pageSize: PAGE_SIZE, onChange: getPageContent}}/>
+      <Table columns={columns} dataSource={data} />
     </Layout>
   )
 }

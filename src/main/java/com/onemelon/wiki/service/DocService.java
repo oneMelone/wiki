@@ -88,4 +88,15 @@ public class DocService {
         Content content = contentMapper.selectByPrimaryKey(id);
         return content.getContent();
     }
+
+    public List<DocQueryResp> all(Long ebookId) {
+        DocExample docExample = new DocExample();
+        docExample.createCriteria().andEbookIdEqualTo(ebookId);
+        docExample.setOrderByClause("sort asc");
+        List<Doc> docList = docMapper.selectByExample(docExample);
+
+        List<DocQueryResp> list = CopyUtil.copyList(docList, DocQueryResp.class);
+
+        return list;
+    }
 }

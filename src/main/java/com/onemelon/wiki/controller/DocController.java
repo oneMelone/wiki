@@ -29,6 +29,14 @@ public class DocController {
         return resp;
     }
 
+    @GetMapping("/all/{ebookId}")
+    public CommonResp all(@PathVariable Long ebookId) {
+        CommonResp<List<DocQueryResp>> resp = new CommonResp<>();
+        List<DocQueryResp> list = docService.all(ebookId);
+        resp.setContent(list);
+        return resp;
+    }
+
     @PostMapping("/save")
     public CommonResp save(@Valid @RequestBody DocSaveReq req) {
         CommonResp resp = new CommonResp<>();
