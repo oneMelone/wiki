@@ -41,8 +41,6 @@ function DocForm(props) {
         const data = response.data;
         if (data.success) {
           editorRef.current.editor.txt.html(data.content);
-        } else {
-          message.error(data.message);
         }
       }
     )
