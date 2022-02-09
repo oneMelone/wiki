@@ -11,8 +11,12 @@ function InsertButton(props) {
   const [confirmLoading, setConfirmLoading] = React.useState(false);
 
   let form;
+  let editor;
   const setForm = (data) => {
     form = data;
+  }
+  const setEditor = (ref) => {
+    editor = ref;
   }
   const showModal = () => {
     setVisible(true);
@@ -25,6 +29,7 @@ function InsertButton(props) {
       ...form.getFieldsValue(),
       id: props.id,
       ebookId: ebookId,
+      content: editor.current.editor.txt.html(),
     }
     console.log("postParams =", postParams);
     axios.post("/doc/save", postParams).then(
@@ -60,7 +65,7 @@ function InsertButton(props) {
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
       >
-        <DocForm setForm={setForm} />
+        <DocForm setForm={setForm} setEditor={setEditor} />
       </Modal>
     </>
   );

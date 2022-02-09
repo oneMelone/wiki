@@ -1,13 +1,16 @@
-import { Form, Input, TreeSelect } from 'antd';
-import { useState, useEffect } from 'react';
+import { Form, Input, TreeSelect, message } from 'antd';
+import { useState, useEffect, useRef } from 'react';
 import { Tool } from '../../../util/tool';
 import axios from 'axios';
 import setTreeNodeDisabled from '../../../util/setTreeNodeDisabled';
-import { useSearchParams } from 'react-router-dom';
+import ReactWEditor from 'wangeditor-for-react';
 
 function DocForm(props) {
   const [form] = Form.useForm();
   const [docList, setDocList] = useState([]);
+  const editorRef = useRef();
+  props.setEditor(editorRef);
+
   useEffect(() => {
     axios.get("/doc/list?page=" + 1 + "&size=" + 100).then(
       (response) => {
@@ -31,6 +34,16 @@ function DocForm(props) {
           children: [],
         })
         setDocList(docs.list);
+      }
+    )
+    axios.get("/doc/findContent/" + props.id).then(
+      (response) => {
+        const data = response.data;
+        if (data.success) {
+          editorRef.current.editor.txt.html(data.content);
+        } else {
+          message.error(data.message);
+        }
       }
     )
   }, [])
@@ -85,6 +98,15 @@ function DocForm(props) {
         name="sort"
       >
         <Input />
+      </Form.Item>
+
+      <Form.Item
+        label="内容"
+        name="content"
+      >
+        <ReactWEditor
+          ref={editorRef}
+        />
       </Form.Item>
     </Form>
   );

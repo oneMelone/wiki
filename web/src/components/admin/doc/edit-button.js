@@ -11,20 +11,28 @@ function EditButton(props) {
   const [confirmLoading, setConfirmLoading] = React.useState(false);
 
   let form;
+  let editor;
   const setForm = (data) => {
     form = data;
   }
+
+  const setEditor = (ref) => {
+    editor = ref;
+  }
+
   const showModal = () => {
     setVisible(true);
   };
 
   let ebookId = parse(useLocation().search).ebookId;
   const handleOk = () => {
+    console.log("editor=", editor);
     setConfirmLoading(true);
     axios.post("/doc/save", {
       ...form.getFieldsValue(),
       id: props.id,
       ebookId: ebookId,
+      content: editor.current.editor.txt.html(),
     }).then(
       (response) => {
         const data = response.data;
@@ -58,7 +66,7 @@ function EditButton(props) {
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
       >
-        <DocForm id={props.id} docList={props.docList} name={props.name} parent={props.parent} sort={props.sort} setForm={setForm} />
+        <DocForm id={props.id} docList={props.docList} name={props.name} parent={props.parent} sort={props.sort} setForm={setForm} setEditor={setEditor} />
       </Modal>
     </>
   );
