@@ -48,7 +48,7 @@ function Ebooks(props) {
       >
         <List.Item.Meta
           avatar={<Avatar src={item.avatar} />}
-          title={<a href={item.href}>{item.name}</a>}
+          title={<a href={"/doc?id="+item.id}>{item.name}</a>}
           description={item.description}
         />
       </List.Item>

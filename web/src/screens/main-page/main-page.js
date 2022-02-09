@@ -29,32 +29,31 @@ function MainPage() {
       }
     )  
   }, [])
-  useEffect(() => {
-    console.log("categories =", categories);
-  })
 
   let handleClick = (e) => {
     if (e.key == 'all') {
       axios.get("/ebook/list").then(
         (response) => {
           setEbooks(response.data.content)
+          console.log(ebooks);
         }
       ) 
     } else {
       axios.get("/ebook/list" + "?categoryId2=" + e.key).then(
         (response) => {
           setEbooks(response.data.content)
+          console.log(ebooks);
         }
       ) 
     }
   }
 
   return (
-    <div>
-      <Layout>
+      <Layout className="centerZone">
           <Sider width={200} className="site-layout-background">
             <Menu
               mode="inline"
+              className='mainPageMenu'
               onClick={handleClick}
               defaultSelectedKeys={['1']}
               defaultOpenKeys={['sub1']}
@@ -91,7 +90,6 @@ function MainPage() {
             </Content>
           </Layout>
         </Layout>
-    </div>
   )
 }
 

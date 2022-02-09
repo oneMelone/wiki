@@ -62,7 +62,7 @@ function AdminDoc(props) {
   ];
 
   return (
-    <Layout>
+    <Layout className="centerZone">
       <Content style={{ padding: '10px 30px' }}>
       <QueryDoc setData={setData}/>
       </Content >

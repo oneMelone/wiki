@@ -45,7 +45,7 @@ function QueryDoc(props) {
           查询
         </Button>
       </Form.Item> */}
-      <InsertButton ebookId={props.ebookId} />
+      <InsertButton />
     </Form>
   )
 }

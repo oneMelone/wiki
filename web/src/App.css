@@ -14,3 +14,11 @@
 .site-layout-background {
   background: #fff;
 }
+
+.header {
+  height: 10% !important;
+}
+
+.centerZone {
+  height: 83vh !important;
+}
