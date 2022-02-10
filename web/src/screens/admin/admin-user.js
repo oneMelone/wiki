@@ -38,11 +38,6 @@ function AdminUser() {
       key: 'name',
     },
     {
-      title: '密码',
-      dataIndex: 'password',
-      key: 'password',
-    },
-    {
       title: '操作',
       key: 'action',
       render: (_, record) => (

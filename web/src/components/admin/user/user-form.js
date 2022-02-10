@@ -52,6 +52,7 @@ function UserForm(props) {
       <Form.Item
         label="密码"
         name="password"
+        hidden={editLoginNameDisabled}
       >
         <Input />
       </Form.Item>
