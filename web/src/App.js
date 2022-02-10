@@ -12,11 +12,12 @@ import AdminEbook from './screens/admin/admin-ebook';
 import AdminCategory from './screens/admin/admin-category';
 import AdminDoc from './screens/admin/admin-doc';
 import DocPage from './screens/doc-page/doc-page';
+import AdminUser from './screens/admin/admin-user';
 
 function App() {
   return (
     <div className="App">
-      <Layout style={{height: "100%"}}>
+      <Layout>
         <MainHeader />
         <Routes>
           <Route path="/" element={<MainPage />} />
@@ -24,6 +25,7 @@ function App() {
           <Route path="/admin/category" element={<AdminCategory />} />
           <Route path="/admin/doc" element={<AdminDoc />} />
           <Route path="/doc" element={<DocPage />} />
+          <Route path="/admin/user" element={<AdminUser />} />
         </Routes>
         <MainFooter />
       </Layout> 

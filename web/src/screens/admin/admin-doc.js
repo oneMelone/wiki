@@ -55,7 +55,7 @@ function AdminDoc(props) {
       render: (_, record) => (
         <Space size="middle">  
           <EditButton docList={data} name={record.name} sort={record.sort} parent={record.parent} id={record.id} />
-          <DeleteButton id={record.id} docList={data} />
+          <DeleteButton id={record.id} />
         </Space>
       ),
     },
