@@ -15,6 +15,11 @@ function UserForm(props) {
     console.log('Failed:', errorInfo);
   };
 
+  let editLoginNameDisabled = true;
+  if (props.loginName == undefined) {
+    editLoginNameDisabled = false;
+  }
+
   return (
     <Form
       name="user-form"
@@ -34,7 +39,7 @@ function UserForm(props) {
         label="登陆名称"
         name="loginName"
       >
-        <Input />
+        <Input disabled={editLoginNameDisabled}/>
       </Form.Item>
 
       <Form.Item
