@@ -8,6 +8,7 @@ import com.onemelon.wiki.exception.BusinessException;
 import com.onemelon.wiki.exception.BusinessExceptionCode;
 import com.onemelon.wiki.mapper.UserMapper;
 import com.onemelon.wiki.req.UserQueryReq;
+import com.onemelon.wiki.req.UserResetPasswordReq;
 import com.onemelon.wiki.req.UserSaveReq;
 import com.onemelon.wiki.resp.UserQueryResp;
 import com.onemelon.wiki.resp.PageResp;
@@ -91,5 +92,10 @@ public class UserService {
         } else {
             return userList.get(0);
         }
+    }
+
+    public void resetPassword(UserResetPasswordReq req) {
+        User user = CopyUtil.copy(req, User.class);
+        userMapper.updateByPrimaryKeySelective(user);
     }
 }

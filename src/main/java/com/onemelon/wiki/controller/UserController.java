@@ -1,6 +1,7 @@
 package com.onemelon.wiki.controller;
 
 import com.onemelon.wiki.req.UserQueryReq;
+import com.onemelon.wiki.req.UserResetPasswordReq;
 import com.onemelon.wiki.req.UserSaveReq;
 import com.onemelon.wiki.resp.CommonResp;
 import com.onemelon.wiki.resp.PageResp;
@@ -40,6 +41,14 @@ public class UserController {
     public CommonResp delete(@PathVariable Long id) {
         CommonResp resp = new CommonResp<>();
         userService.delete(id);
+        return resp;
+    }
+
+    @PostMapping("/reset-password")
+    public CommonResp resetPassword(@Valid @RequestBody UserResetPasswordReq req) {
+        req.setPassword(DigestUtils.md5DigestAsHex(req.getPassword().getBytes()));
+        CommonResp resp = new CommonResp<>();
+        userService.resetPassword(req);
         return resp;
     }
 }

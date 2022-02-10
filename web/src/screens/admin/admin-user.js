@@ -5,6 +5,7 @@ import axios from "axios";
 import EditButton from "../../components/admin/user/edit-button";
 import DeleteButton from "../../components/admin/user/delete-button";
 import QueryUser from "../../components/admin/user/query";
+import ResetPasswordButton from "../../components/admin/user/reset-password-button";
 
 function AdminUser() {
   const PAGE_SIZE = 8;
@@ -43,7 +44,7 @@ function AdminUser() {
       render: (_, record) => (
         <Space size="middle">  
           <EditButton name={record.name} loginName={record.loginName} password={record.password} id={record.id} />
-          
+          <ResetPasswordButton id={record.id} />
           <DeleteButton id={record.id} />
         </Space>
       ),
