@@ -3,6 +3,7 @@ import React from 'react';
 import axios from 'axios';
 
 import UserForm from './user-form';
+import { hexMd5, KEY } from '../../../util/md5';
 
 function InsertButton(props) {
   const [visible, setVisible] = React.useState(false);
@@ -18,8 +19,10 @@ function InsertButton(props) {
 
   const handleOk = () => {
     setConfirmLoading(true);
+    let md5Password = hexMd5(form.getFieldsValue().password + KEY);
     axios.post("/user/save", {
       ...form.getFieldsValue(),
+      password: md5Password,
       id: props.id,
     }).then(
       (response) => {

@@ -3,9 +3,10 @@ package com.onemelon.wiki.controller;
 import com.onemelon.wiki.req.UserQueryReq;
 import com.onemelon.wiki.req.UserSaveReq;
 import com.onemelon.wiki.resp.CommonResp;
-import com.onemelon.wiki.resp.UserQueryResp;
 import com.onemelon.wiki.resp.PageResp;
+import com.onemelon.wiki.resp.UserQueryResp;
 import com.onemelon.wiki.service.UserService;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -29,6 +30,7 @@ public class UserController {
 
     @PostMapping("/save")
     public CommonResp save(@Valid @RequestBody UserSaveReq req) {
+        req.setPassword(DigestUtils.md5DigestAsHex(req.getPassword().getBytes()));
         CommonResp resp = new CommonResp<>();
         userService.save(req);
         return resp;
