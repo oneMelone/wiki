@@ -1,10 +1,12 @@
 package com.onemelon.wiki.controller;
 
+import com.onemelon.wiki.req.UserLoginReq;
 import com.onemelon.wiki.req.UserQueryReq;
 import com.onemelon.wiki.req.UserResetPasswordReq;
 import com.onemelon.wiki.req.UserSaveReq;
 import com.onemelon.wiki.resp.CommonResp;
 import com.onemelon.wiki.resp.PageResp;
+import com.onemelon.wiki.resp.UserLoginResp;
 import com.onemelon.wiki.resp.UserQueryResp;
 import com.onemelon.wiki.service.UserService;
 import org.springframework.util.DigestUtils;
@@ -49,6 +51,15 @@ public class UserController {
         req.setPassword(DigestUtils.md5DigestAsHex(req.getPassword().getBytes()));
         CommonResp resp = new CommonResp<>();
         userService.resetPassword(req);
+        return resp;
+    }
+
+    @PostMapping("/login")
+    public CommonResp login(@Valid @RequestBody UserLoginReq req) {
+        req.setPassword(DigestUtils.md5DigestAsHex(req.getPassword().getBytes()));
+        CommonResp<UserLoginResp> resp = new CommonResp<>();
+        UserLoginResp userLoginResp = userService.login(req);
+        resp.setContent(userLoginResp);
         return resp;
     }
 }

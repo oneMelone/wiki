@@ -7,9 +7,11 @@ import com.onemelon.wiki.domain.UserExample;
 import com.onemelon.wiki.exception.BusinessException;
 import com.onemelon.wiki.exception.BusinessExceptionCode;
 import com.onemelon.wiki.mapper.UserMapper;
+import com.onemelon.wiki.req.UserLoginReq;
 import com.onemelon.wiki.req.UserQueryReq;
 import com.onemelon.wiki.req.UserResetPasswordReq;
 import com.onemelon.wiki.req.UserSaveReq;
+import com.onemelon.wiki.resp.UserLoginResp;
 import com.onemelon.wiki.resp.UserQueryResp;
 import com.onemelon.wiki.resp.PageResp;
 import com.onemelon.wiki.util.CopyUtil;
@@ -97,5 +99,24 @@ public class UserService {
     public void resetPassword(UserResetPasswordReq req) {
         User user = CopyUtil.copy(req, User.class);
         userMapper.updateByPrimaryKeySelective(user);
+    }
+
+    public UserLoginResp login(UserLoginReq req) {
+        User userDb = selectByLoginName(req.getLoginName());
+        if (ObjectUtils.isEmpty(userDb)) {
+            // 用户名不存在
+            LOG.info("用户名不存在, {}", req.getLoginName());
+            throw new BusinessException(BusinessExceptionCode.LOGIN_USER_ERROR);
+        } else {
+            if (userDb.getPassword().equals(req.getPassword())) {
+                // 登录成功
+                UserLoginResp userLoginResp = CopyUtil.copy(userDb, UserLoginResp.class);
+                return userLoginResp;
+            } else {
+                // 密码错误
+                LOG.info("密码不对，输入密码：{}，数据库密码：{}", req.getPassword(), userDb.getPassword());
+                throw new BusinessException(BusinessExceptionCode.LOGIN_USER_ERROR);
+            }
+        }
     }
 }
