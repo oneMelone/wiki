@@ -3,17 +3,18 @@ import { Link } from "react-router-dom";
 import React, { useEffect } from 'react';
 import axios from 'axios';
 import { hexMd5, KEY } from '../util/md5';
+import user_store from '../redux-store/user-redux-store';
 
 const { Header } = Layout;
 
 function MainHeader() {
   const [visible, setVisible] = React.useState(false);
   const [confirmLoading, setConfirmLoading] = React.useState(false);
-  const [user, setUser] = React.useState(undefined);
+  const [user, setUser] = React.useState(user_store.getState());
 
-  useEffect(() => {
-    console.log("user = ", user);
-  }, [user]);
+  user_store.subscribe(() => {
+    setUser(user_store.getState());
+  })
 
   let form;
   const setForm = (data) => {
@@ -39,8 +40,10 @@ function MainHeader() {
         if (data.success) {
           setVisible(false);
           setConfirmLoading(false);
-          setUser(data.content);
-          console.log("user Setted");
+          user_store.dispatch({
+            type: "USER_LOGIN",
+            user: data.content,
+          })
         } else {
           message.error(data.message);
           setConfirmLoading(false);
