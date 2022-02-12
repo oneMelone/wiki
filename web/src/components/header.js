@@ -1,6 +1,6 @@
 import { Button, Col, Layout, Menu, Row, Modal, Form, Input, message } from 'antd';
 import { Link } from "react-router-dom";
-import React from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import { hexMd5, KEY } from '../util/md5';
 
@@ -9,6 +9,11 @@ const { Header } = Layout;
 function MainHeader() {
   const [visible, setVisible] = React.useState(false);
   const [confirmLoading, setConfirmLoading] = React.useState(false);
+  const [user, setUser] = React.useState(undefined);
+
+  useEffect(() => {
+    console.log("user = ", user);
+  }, [user]);
 
   let form;
   const setForm = (data) => {
@@ -34,8 +39,8 @@ function MainHeader() {
         if (data.success) {
           setVisible(false);
           setConfirmLoading(false);
-          console.log("login resp data: ", data)
-          // window.location.reload();
+          setUser(data.content);
+          console.log("user Setted");
         } else {
           message.error(data.message);
           setConfirmLoading(false);
@@ -47,10 +52,10 @@ function MainHeader() {
   return (
     <Header className="header">
       <Row>
-      <Col span={4}>
+      <Col span={3}>
       <div className="logo" />
       </Col>
-      <Col span={18}>
+      <Col span={17}>
       <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
       <Menu.Item key="1">
         <Link to="/">首页</Link>
@@ -69,8 +74,8 @@ function MainHeader() {
       </Menu.Item>
       </Menu>
       </Col>
-      <Col span={2}>
-      <Button onClick={showModal}>登陆</Button>
+      <Col span={4}>
+      <LoginButtonOrWelcomInfo />
       </Col>
       </Row>
       <Modal
@@ -84,8 +89,15 @@ function MainHeader() {
       </Modal>
     </Header>
   )
+  
+  function LoginButtonOrWelcomInfo() {
+    if (user === undefined) {
+      return <Button onClick={showModal}>登陆</Button>
+    } else {
+      return <div className="welcome-info">您好，{user.name}</div>
+    }
+  }
 }
-
 function LoginForm(props) {
   const [form] = Form.useForm();
   
@@ -124,5 +136,4 @@ function LoginForm(props) {
     </Form>
   );
 }
-
 export default MainHeader;
