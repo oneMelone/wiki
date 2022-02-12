@@ -8,6 +8,10 @@ public class UserQueryReq extends PageReq {
         return loginName;
     }
 
+    public void setLoginName(String loginName) {
+        this.loginName = loginName;
+    }
+
     @Override
     public String toString() {
         return "UserQueryReq{" +

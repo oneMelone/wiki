@@ -5,32 +5,24 @@ import javax.validation.constraints.NotNull;
 public class DocSaveReq {
     private Long id;
 
-    @NotNull(message = "电子书不能为空")
+    @NotNull(message = "【电子书】不能为空")
     private Long ebookId;
 
-    @NotNull(message = "父文档不能为空")
+    @NotNull(message = "【父文档】不能为空")
     private Long parent;
 
-    @NotNull(message = "名称不能为空")
+    @NotNull(message = "【名称】不能为空")
     private String name;
 
-    @NotNull(message = "排序不能为空")
+    @NotNull(message = "【顺序】不能为空")
     private Integer sort;
-
-    @NotNull(message = "内容不能为空")
-    private String content;
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
 
     private Integer viewCount;
 
     private Integer voteCount;
+
+    @NotNull(message = "【内容】不能为空")
+    private String content;
 
     public Long getId() {
         return id;
@@ -88,6 +80,14 @@ public class DocSaveReq {
         this.voteCount = voteCount;
     }
 
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
     @Override
     public String toString() {
         return "DocSaveReq{" +
@@ -96,9 +96,9 @@ public class DocSaveReq {
                 ", parent=" + parent +
                 ", name='" + name + '\'' +
                 ", sort=" + sort +
-                ", content='" + content + '\'' +
                 ", viewCount=" + viewCount +
                 ", voteCount=" + voteCount +
+                ", content='" + content + '\'' +
                 '}';
     }
 }

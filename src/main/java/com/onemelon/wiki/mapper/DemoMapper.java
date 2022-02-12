@@ -2,8 +2,9 @@ package com.onemelon.wiki.mapper;
 
 import com.onemelon.wiki.domain.Demo;
 import com.onemelon.wiki.domain.DemoExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface DemoMapper {
     long countByExample(DemoExample example);

@@ -11,9 +11,9 @@ import com.onemelon.wiki.req.UserLoginReq;
 import com.onemelon.wiki.req.UserQueryReq;
 import com.onemelon.wiki.req.UserResetPasswordReq;
 import com.onemelon.wiki.req.UserSaveReq;
+import com.onemelon.wiki.resp.PageResp;
 import com.onemelon.wiki.resp.UserLoginResp;
 import com.onemelon.wiki.resp.UserQueryResp;
-import com.onemelon.wiki.resp.PageResp;
 import com.onemelon.wiki.util.CopyUtil;
 import com.onemelon.wiki.util.SnowFlake;
 import org.slf4j.Logger;
@@ -49,6 +49,17 @@ public class UserService {
         LOG.info("总行数：{}", pageInfo.getTotal());
         LOG.info("总页数：{}", pageInfo.getPages());
 
+        // List<UserResp> respList = new ArrayList<>();
+        // for (User user : userList) {
+        //     // UserResp userResp = new UserResp();
+        //     // BeanUtils.copyProperties(user, userResp);
+        //     // 对象复制
+        //     UserResp userResp = CopyUtil.copy(user, UserResp.class);
+        //
+        //     respList.add(userResp);
+        // }
+
+        // 列表复制
         List<UserQueryResp> list = CopyUtil.copyList(userList, UserQueryResp.class);
 
         PageResp<UserQueryResp> pageResp = new PageResp();
@@ -64,7 +75,8 @@ public class UserService {
     public void save(UserSaveReq req) {
         User user = CopyUtil.copy(req, User.class);
         if (ObjectUtils.isEmpty(req.getId())) {
-            if (ObjectUtils.isEmpty(selectByLoginName(req.getLoginName()))) {
+            User userDB = selectByLoginName(req.getLoginName());
+            if (ObjectUtils.isEmpty(userDB)) {
                 // 新增
                 user.setId(snowFlake.nextId());
                 userMapper.insert(user);
@@ -84,10 +96,10 @@ public class UserService {
         userMapper.deleteByPrimaryKey(id);
     }
 
-    public User selectByLoginName(String loginName) {
+    public User selectByLoginName(String LoginName) {
         UserExample userExample = new UserExample();
         UserExample.Criteria criteria = userExample.createCriteria();
-        criteria.andLoginNameEqualTo(loginName);
+        criteria.andLoginNameEqualTo(LoginName);
         List<User> userList = userMapper.selectByExample(userExample);
         if (CollectionUtils.isEmpty(userList)) {
             return null;
@@ -96,11 +108,17 @@ public class UserService {
         }
     }
 
+    /**
+     * 修改密码
+     */
     public void resetPassword(UserResetPasswordReq req) {
         User user = CopyUtil.copy(req, User.class);
         userMapper.updateByPrimaryKeySelective(user);
     }
 
+    /**
+     * 登录
+     */
     public UserLoginResp login(UserLoginReq req) {
         User userDb = selectByLoginName(req.getLoginName());
         if (ObjectUtils.isEmpty(userDb)) {
@@ -113,8 +131,8 @@ public class UserService {
                 UserLoginResp userLoginResp = CopyUtil.copy(userDb, UserLoginResp.class);
                 return userLoginResp;
             } else {
-                // 密码错误
-                LOG.info("密码不对，输入密码：{}，数据库密码：{}", req.getPassword(), userDb.getPassword());
+                // 密码不对
+                LOG.info("密码不对, 输入密码：{}, 数据库密码：{}", req.getPassword(), userDb.getPassword());
                 throw new BusinessException(BusinessExceptionCode.LOGIN_USER_ERROR);
             }
         }

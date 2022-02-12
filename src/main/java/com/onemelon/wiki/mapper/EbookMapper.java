@@ -2,8 +2,9 @@ package com.onemelon.wiki.mapper;
 
 import com.onemelon.wiki.domain.Ebook;
 import com.onemelon.wiki.domain.EbookExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface EbookMapper {
     long countByExample(EbookExample example);

@@ -9,14 +9,6 @@ public class UserLoginResp {
 
     private String token;
 
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
     public Long getId() {
         return id;
     }
@@ -39,6 +31,14 @@ public class UserLoginResp {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     @Override

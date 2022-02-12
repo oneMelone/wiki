@@ -2,14 +2,15 @@ package com.onemelon.wiki.controller;
 
 import com.onemelon.wiki.req.CategoryQueryReq;
 import com.onemelon.wiki.req.CategorySaveReq;
-import com.onemelon.wiki.resp.CommonResp;
 import com.onemelon.wiki.resp.CategoryQueryResp;
+import com.onemelon.wiki.resp.CommonResp;
 import com.onemelon.wiki.resp.PageResp;
 import com.onemelon.wiki.service.CategoryService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/category")
@@ -18,11 +19,18 @@ public class CategoryController {
     @Resource
     private CategoryService categoryService;
 
-    // Controller层不要见到实体Category。
+    @GetMapping("/all")
+    public CommonResp all() {
+        CommonResp<List<CategoryQueryResp>> resp = new CommonResp<>();
+        List<CategoryQueryResp> list = categoryService.all();
+        resp.setContent(list);
+        return resp;
+    }
+
     @GetMapping("/list")
-    public CommonResp<PageResp<CategoryQueryResp>> list(@Valid CategoryQueryReq req) {
+    public CommonResp list(@Valid CategoryQueryReq req) {
         CommonResp<PageResp<CategoryQueryResp>> resp = new CommonResp<>();
-        PageResp<CategoryQueryResp> list =  categoryService.list(req);
+        PageResp<CategoryQueryResp> list = categoryService.list(req);
         resp.setContent(list);
         return resp;
     }

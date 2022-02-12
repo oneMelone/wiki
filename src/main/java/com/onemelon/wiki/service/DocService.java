@@ -20,12 +20,12 @@ import com.onemelon.wiki.util.RequestContext;
 import com.onemelon.wiki.util.SnowFlake;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -47,6 +47,9 @@ public class DocService {
 
     @Resource
     public RedisUtil redisUtil;
+
+    @Resource
+    public WsService wsService;
 
     // @Resource
     // private RocketMQTemplate rocketMQTemplate;
@@ -126,12 +129,8 @@ public class DocService {
 
     public void delete(List<String> ids) {
         DocExample docExample = new DocExample();
-        DocExample.Criteria criteria  = docExample.createCriteria();
-        List<Long> criteriaArr = new ArrayList<>();
-        for (String id : ids) {
-            criteriaArr.add(Long.valueOf(id));
-        }
-        criteria.andIdIn(criteriaArr);
+        DocExample.Criteria criteria = docExample.createCriteria();
+        criteria.andIdIn(ids);
         docMapper.deleteByExample(docExample);
     }
 
@@ -158,6 +157,12 @@ public class DocService {
         } else {
             throw new BusinessException(BusinessExceptionCode.VOTE_REPEAT);
         }
+
+        // 推送消息
+        Doc docDb = docMapper.selectByPrimaryKey(id);
+        String logId = MDC.get("LOG_ID");
+        wsService.sendInfo("【" + docDb.getName() + "】被点赞！", logId);
+        // rocketMQTemplate.convertAndSend("VOTE_TOPIC", "【" + docDb.getName() + "】被点赞！");
     }
 
     public void updateEbookInfo() {

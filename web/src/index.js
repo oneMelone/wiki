@@ -8,6 +8,7 @@ import axios from 'axios';
 import user_store from './redux-store/user-redux-store';
 import { Tool } from './util/tool';
 
+
 axios.defaults.baseURL = process.env.REACT_APP_SERVER;
 
 /**
@@ -42,6 +43,43 @@ axios.interceptors.response.use(function (response) {
   return Promise.reject(error);
 });
 
+// websocket
+let websocket;
+let token;
+
+const onOpen = () => {
+  console.log("WebSocket连接成功，状态码：", websocket.readyState);
+};
+
+const onMessage = (event) => {
+  console.log("WebSocket收到消息：", event.data);
+};
+
+const onError = () => {
+  console.log("WebSocket连接错误，状态码：", websocket.readyState);
+};
+
+const onClose = () => {
+  console.log("WebSocket连接关闭，状态码：", websocket.readyState);
+};
+
+const initWebSocket = () => {
+  websocket.onOpen = onOpen;
+  websocket.onMessage = onMessage;
+  websocket.onError = onError;
+  websocket.onClose = onClose;
+}
+
+if ("WebSocket" in window) {
+  token = Tool.uuid(10);
+  console.log("token-", token);
+  websocket = new WebSocket(process.env.REACT_APP_WS_SERVER + "/ws/" + token);
+  initWebSocket();
+} else {
+  alert("当前浏览器不支持websocket");
+}
+
+// render
 ReactDOM.render(
   <BrowserRouter>
     <App />
