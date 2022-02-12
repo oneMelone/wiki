@@ -64,3 +64,9 @@
 .view-count {
   margin-right: 100px;
 }
+
+.like-outlined-button-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

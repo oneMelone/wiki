@@ -6,6 +6,7 @@ import { Content } from 'antd/lib/layout/layout';
 function DocMenu(props) {
   let onSelect = (selectedKeys, info) => {
     props.setDocInfo(info.node);
+    props.setVoteCount(info.node.voteCount);
     axios.get("/doc/findContent/"+selectedKeys).then(
       response => {
         props.setDocContent(response.data.content);
