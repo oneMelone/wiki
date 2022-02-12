@@ -1,18 +1,20 @@
 import { Tree } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import { Content } from 'antd/lib/layout/layout';
 
 function DocMenu(props) {
-  let onSelect = (selectedKeys) => {
+  let onSelect = (selectedKeys, info) => {
+    props.setDocInfo(info.node);
     axios.get("/doc/findContent/"+selectedKeys).then(
       response => {
         props.setDocContent(response.data.content);
-        // console.log("response: ", response)
       }
     )
   };
 
   return (
+    <Content style={{padding: "20px", backgroundColor: "white", height: "91vh"}}>
     <Tree
       showLine
       switcherIcon={<DownOutlined />}
@@ -20,6 +22,7 @@ function DocMenu(props) {
       onSelect={onSelect}
       treeData={props.data}
     />
+    </Content>
   );
 }
 

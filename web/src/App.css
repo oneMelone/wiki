@@ -1,3 +1,7 @@
+.app {
+  font-family: Helvetica, sans-serif;
+}
+
 .logo {
   float: left;
   width: 120px;
@@ -45,6 +49,18 @@
   margin-left: 122.02px;
 }
 
-.no-display {
-  /* display: none !important; */
+.doc-title {
+  font-size: 50px;
+}
+
+.view-count-and-vote-count {
+  display: flex;
+}
+
+.view-count, .vote-count {
+  color: gray;
+}
+
+.view-count {
+  margin-right: 100px;
 }

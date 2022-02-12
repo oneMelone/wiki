@@ -12,6 +12,7 @@ function DocPage() {
 
   let [docTree, setDocTree] = useState();
   let [docContent, setDocContent] = useState("选择左侧节点以浏览");
+  let [docInfo, setDocInfo] = useState();
 
   useEffect(() => {
     axios.get("/doc/all/" + ebookId).then(
@@ -33,10 +34,10 @@ function DocPage() {
   return (
   <Row className="centerZone">
     <Col span={4}>
-      <DocMenu data={docTree} setDocContent={setDocContent} />
+      <DocMenu data={docTree} setDocContent={setDocContent} setDocInfo={setDocInfo} />
     </Col>
     <Col span={20}>
-      <DocContent docContent={docContent} />
+      <DocContent docContent={docContent} docInfo={docInfo} />
     </Col>
   </Row>
   )
