@@ -58,7 +58,7 @@ function MainHeader() {
       <Col span={3}>
       <div className="logo" />
       </Col>
-      <Col span={17}>
+      <Col span={16}>
       <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
       <Menu.Item key="1">
         <Link to="/">首页</Link>
@@ -77,7 +77,7 @@ function MainHeader() {
       </Menu.Item>
       </Menu>
       </Col>
-      <Col span={4}>
+      <Col span={5}>
       <LoginButtonOrWelcomInfo />
       </Col>
       </Row>
@@ -92,15 +92,44 @@ function MainHeader() {
       </Modal>
     </Header>
   )
+
+  // LoginButtonOrWelcomeInfo
   
   function LoginButtonOrWelcomInfo() {
     if (user === undefined) {
       return <Button onClick={showModal}>登陆</Button>
     } else {
-      return <div className="welcome-info">您好，{user.name}</div>
+      return (
+        <div className="login-info-and-logout-button">
+        <div className="welcome-info">您好，{user.name}</div>
+        <LogOutButton />
+        </div>
+      )
     }
   }
 }
+
+function LogOutButton() {
+  let logout = () => {
+    axios.get("/user/logout/" + user_store.getState().token).then(
+      response => {
+        if (response.data.success) {
+          message.success("登出成功");
+        } else {
+          message.error(response.data.message);
+        }
+      }
+    )
+    user_store.dispatch({
+      type: "USER_LOGOUT"
+    })
+  }
+
+  return (
+    <Button onClick={logout}>登出</Button>
+  )
+}
+
 function LoginForm(props) {
   const [form] = Form.useForm();
   

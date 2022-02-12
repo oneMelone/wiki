@@ -8,6 +8,9 @@ const reducer = (state = SessionStorage.get(USER), action) => {
     case 'USER_LOGIN':
       SessionStorage.set(USER, action.user);
       return action.user;
+    case 'USER_LOGOUT':
+      SessionStorage.remove(USER);
+      return undefined;
     default:
       return state;
   }
