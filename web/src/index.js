@@ -5,6 +5,8 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import axios from 'axios';
+import user_store from './redux-store/user-redux-store';
+import { Tool } from './util/tool';
 
 axios.defaults.baseURL = process.env.REACT_APP_SERVER;
 
@@ -13,11 +15,12 @@ axios.defaults.baseURL = process.env.REACT_APP_SERVER;
  */
 axios.interceptors.request.use(function (config) {
  console.log('请求参数：', config);
-  // const token = store.state.user.token;
-  // if (Tool.isNotEmpty(token)) {
-  //   config.headers.token = token;
-  //   console.log("请求headers增加token:", token);
-  // }
+  const user = user_store.getState();
+  if (Tool.isNotEmpty(user)) {
+    const token = user.token;
+    config.headers.token = token;
+    console.log("请求headers增加token:", token);
+  }
  return config;
 }, error => {
   return Promise.reject(error);
