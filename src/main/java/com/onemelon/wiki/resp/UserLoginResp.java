@@ -1,15 +1,21 @@
 package com.onemelon.wiki.resp;
 
-import javax.validation.constraints.NotNull;
-
 public class UserLoginResp {
     private Long id;
 
-    @NotNull(message = "用户名不能为空")
     private String loginName;
 
-    @NotNull(message = "昵称不能为空")
     private String name;
+
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public Long getId() {
         return id;
@@ -37,14 +43,11 @@ public class UserLoginResp {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", loginName=").append(loginName);
-        sb.append(", name=").append(name);
-        sb.append("]");
-        return sb.toString();
+        return "UserLoginResp{" +
+                "id=" + id +
+                ", loginName='" + loginName + '\'' +
+                ", name='" + name + '\'' +
+                ", token='" + token + '\'' +
+                '}';
     }
 }
