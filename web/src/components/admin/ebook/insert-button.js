@@ -12,8 +12,13 @@ function InsertButton(props) {
   const setForm = (data) => {
     form = data;
   }
+
   const showModal = () => {
     setVisible(true);
+  };
+
+  const handleCancel = () => {
+    setVisible(false);
   };
 
   const handleOk = () => {
@@ -41,11 +46,6 @@ function InsertButton(props) {
       }
     )
   };
-
-  const handleCancel = () => {
-    setVisible(false);
-  };
-
 
   return (
     <>

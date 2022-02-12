@@ -1,12 +1,56 @@
-import { Layout, Menu } from 'antd';
+import { Button, Col, Layout, Menu, Row, Modal, Form, Input, message } from 'antd';
 import { Link } from "react-router-dom";
+import React from 'react';
+import axios from 'axios';
+import { hexMd5, KEY } from '../util/md5';
 
 const { Header } = Layout;
 
 function MainHeader() {
+  const [visible, setVisible] = React.useState(false);
+  const [confirmLoading, setConfirmLoading] = React.useState(false);
+
+  let form;
+  const setForm = (data) => {
+    form = data;
+  }
+  const showModal = () => {
+    setVisible(true);
+  };
+
+  const handleCancel = () => {
+    setVisible(false);
+  };
+
+  const handleOk = () => {
+    setConfirmLoading(true);
+    let md5Password = hexMd5(form.getFieldsValue().password + KEY);
+    axios.post("/user/login", {
+      ...form.getFieldsValue(),
+      password: md5Password,
+    }).then(
+      (response) => {
+        const data = response.data;
+        if (data.success) {
+          setVisible(false);
+          setConfirmLoading(false);
+          console.log("login resp data: ", data)
+          // window.location.reload();
+        } else {
+          message.error(data.message);
+          setConfirmLoading(false);
+        }
+      }
+    )
+  }
+
   return (
     <Header className="header">
+      <Row>
+      <Col span={4}>
       <div className="logo" />
+      </Col>
+      <Col span={18}>
       <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
       <Menu.Item key="1">
         <Link to="/">首页</Link>
@@ -24,8 +68,61 @@ function MainHeader() {
         <Link to="about">关于我们</Link>
       </Menu.Item>
       </Menu>
+      </Col>
+      <Col span={2}>
+      <Button onClick={showModal}>登陆</Button>
+      </Col>
+      </Row>
+      <Modal
+        title="登陆"
+        visible={visible}
+        onOk={handleOk}
+        confirmLoading={confirmLoading}
+        onCancel={handleCancel}
+      >
+        <LoginForm setForm={setForm} />
+      </Modal>
     </Header>
   )
+}
+
+function LoginForm(props) {
+  const [form] = Form.useForm();
+  
+  props.setForm(form);
+  const onFinish = (values) => {
+    console.log('Success:', values);
+  };
+
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  };
+
+  return (
+    <Form
+      name="login-form"
+      form={form}
+      labelCol={{ span: 8 }}
+      wrapperCol={{ span: 16 }}
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
+      autoComplete="off"
+    >
+      <Form.Item
+        label="登录名"
+        name="loginName"
+      >
+        <Input />
+      </Form.Item>
+
+      <Form.Item
+        label="密码"
+        name="password"
+      >
+        <Input />
+      </Form.Item>
+    </Form>
+  );
 }
 
 export default MainHeader;

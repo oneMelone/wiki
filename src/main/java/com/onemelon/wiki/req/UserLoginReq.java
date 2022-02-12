@@ -1,10 +1,11 @@
 package com.onemelon.wiki.req;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 public class UserLoginReq {
-    @NotNull(message = "用户名不能为空")
+    @NotEmpty(message = "用户名不能为空")
     private String loginName;
 
     @NotNull(message = "密码不能为空")

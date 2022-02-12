@@ -15,10 +15,18 @@
   background: #fff;
 }
 
-.header {
+/* .header {
   height: 10% !important;
-}
+} */
 
 .centerZone {
   height: 83vh !important;
+}
+
+.loginButton {
+  float: right;
+  width: 120px;
+  height: 31px;
+  margin: 16px 24px 16px 0;
+  background: rgba(255, 255, 255, 0.3);
 }
