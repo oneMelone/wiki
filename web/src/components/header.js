@@ -44,6 +44,7 @@ function MainHeader() {
             type: "USER_LOGIN",
             user: data.content,
           })
+          window.location.reload();
         } else {
           message.error(data.message);
           setConfirmLoading(false);
@@ -59,23 +60,7 @@ function MainHeader() {
       <div className="logo" />
       </Col>
       <Col span={16}>
-      <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
-      <Menu.Item key="1">
-        <Link to="/">首页</Link>
-      </Menu.Item>
-      <Menu.Item key="2">
-        <Link to="/admin/ebook">电子书管理</Link>
-      </Menu.Item>
-      <Menu.Item key="3">
-        <Link to="/admin/category">分类管理</Link>
-      </Menu.Item>
-      <Menu.Item key="4">
-        <Link to="/admin/user">用户管理</Link>
-      </Menu.Item>
-      <Menu.Item key="5">
-        <Link to="about">关于我们</Link>
-      </Menu.Item>
-      </Menu>
+      <TopBar />
       </Col>
       <Col span={5}>
       <LoginButtonOrWelcomInfo />
@@ -93,11 +78,46 @@ function MainHeader() {
     </Header>
   )
 
+  function TopBar() {
+    if (user_store.getState() === undefined) {
+    return (
+      <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
+        <Menu.Item key="1">
+          <Link to="/">首页</Link>
+        </Menu.Item>
+        <Menu.Item key="5">
+          <Link to="about">关于我们</Link>
+        </Menu.Item>
+      </Menu>
+    )
+    } else {
+      return (
+        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
+        <Menu.Item key="1">
+          <Link to="/">首页</Link>
+        </Menu.Item>
+        <Menu.Item key="2">
+          <Link to="/admin/ebook">电子书管理</Link>
+        </Menu.Item>
+        <Menu.Item key="3">
+          <Link to="/admin/category">分类管理</Link>
+        </Menu.Item>
+        <Menu.Item key="4">
+          <Link to="/admin/user">用户管理</Link>
+        </Menu.Item>
+        <Menu.Item key="5">
+          <Link to="about">关于我们</Link>
+        </Menu.Item>
+        </Menu>
+      )
+    }
+  }
+
   // LoginButtonOrWelcomeInfo
   
   function LoginButtonOrWelcomInfo() {
     if (user === undefined) {
-      return <Button onClick={showModal}>登陆</Button>
+      return <Button className='login-button' shape="round" onClick={showModal}>登陆</Button>
     } else {
       return (
         <div className="login-info-and-logout-button">
@@ -126,7 +146,7 @@ function LogOutButton() {
   }
 
   return (
-    <Button onClick={logout}>登出</Button>
+    <Button shape="round" onClick={logout}>登出</Button>
   )
 }
 

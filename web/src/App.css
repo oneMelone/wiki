@@ -40,3 +40,11 @@
   display: flex;
   align-items: center;
 }
+
+.login-button {
+  margin-left: 122.02px;
+}
+
+.no-display {
+  /* display: none !important; */
+}
