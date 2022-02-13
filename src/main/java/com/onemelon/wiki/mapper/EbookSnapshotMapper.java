@@ -2,9 +2,8 @@ package com.onemelon.wiki.mapper;
 
 import com.onemelon.wiki.domain.EbookSnapshot;
 import com.onemelon.wiki.domain.EbookSnapshotExample;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface EbookSnapshotMapper {
     long countByExample(EbookSnapshotExample example);

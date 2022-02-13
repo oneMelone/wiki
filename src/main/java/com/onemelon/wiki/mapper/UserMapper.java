@@ -2,9 +2,8 @@ package com.onemelon.wiki.mapper;
 
 import com.onemelon.wiki.domain.User;
 import com.onemelon.wiki.domain.UserExample;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface UserMapper {
     long countByExample(UserExample example);

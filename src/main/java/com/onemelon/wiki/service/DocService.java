@@ -77,16 +77,6 @@ public class DocService {
         LOG.info("总行数：{}", pageInfo.getTotal());
         LOG.info("总页数：{}", pageInfo.getPages());
 
-        // List<DocResp> respList = new ArrayList<>();
-        // for (Doc doc : docList) {
-        //     // DocResp docResp = new DocResp();
-        //     // BeanUtils.copyProperties(doc, docResp);
-        //     // 对象复制
-        //     DocResp docResp = CopyUtil.copy(doc, DocResp.class);
-        //
-        //     respList.add(docResp);
-        // }
-
         // 列表复制
         List<DocQueryResp> list = CopyUtil.copyList(docList, DocQueryResp.class);
 
