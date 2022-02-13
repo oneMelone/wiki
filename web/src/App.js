@@ -4,7 +4,7 @@ import {
   Routes,
   Route
 } from "react-router-dom";
-import { Layout } from 'antd';
+import { Layout, message, notification } from 'antd';
 import MainPage from './screens/main-page/main-page'
 import MainHeader from './components/header';
 import MainFooter from './components/footer';
@@ -13,45 +13,28 @@ import AdminCategory from './screens/admin/admin-category';
 import AdminDoc from './screens/admin/admin-doc';
 import DocPage from './screens/doc-page/doc-page';
 import AdminUser from './screens/admin/admin-user';
-import { useEffect } from 'react';
 import { Tool } from './util/tool';
+import { useEffect } from 'react';
 
 function App() {
-  let websocket;
-  let token;
-
-  const onOpen = () => {
-    console.log("WebSocket连接成功，状态码：", websocket.readyState);
-  };
-
-  const onMessage = (event) => {
-    console.log("WebSocket收到消息：", event.data);
-  };
-
-  const onError = () => {
-    console.log("WebSocket连接错误，状态码：", websocket.readyState);
-  };
-
-  const onClose = () => {
-    console.log("WebSocket连接关闭，状态码：", websocket.readyState);
-  };
-
-  const initWebSocket = () => {
-    websocket.onOpen = onOpen;
-    websocket.onMessage = onMessage;
-    websocket.onError = onError;
-    websocket.onClose = onClose;
-  }
-
   useEffect(() => {
     if ("WebSocket" in window) {
-      token = Tool.uuid(10);
-      websocket = new WebSocket(process.env.REACT_APP_WS_SERVER + "/ws/" + token);
-      initWebSocket();
+      let token = Tool.uuid(10);
+      console.log("token-", token);
+      
+      let websocket = new WebSocket(process.env.REACT_APP_WS_SERVER + "/ws/" + token);
+      websocket.addEventListener('message', function (event) {
+        notification['success']({
+          message: '收到消息',
+          description:
+            event.data,
+        });
+      });
     } else {
       alert("当前浏览器不支持websocket");
     }
   }, [])
+
   return (
     <div className="App">
       <Layout>

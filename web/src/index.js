@@ -7,6 +7,7 @@ import reportWebVitals from './reportWebVitals';
 import axios from 'axios';
 import user_store from './redux-store/user-redux-store';
 import { Tool } from './util/tool';
+import { message } from 'antd';
 
 
 axios.defaults.baseURL = process.env.REACT_APP_SERVER;
@@ -53,6 +54,7 @@ const onOpen = () => {
 
 const onMessage = (event) => {
   console.log("WebSocket收到消息：", event.data);
+  message.success(event.data);
 };
 
 const onError = () => {
