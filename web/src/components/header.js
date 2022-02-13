@@ -57,7 +57,9 @@ function MainHeader() {
     <Header className="header">
       <Row>
       <Col span={3}>
-      <div className="logo" />
+      <div className="logo">
+        Wiki
+      </div>
       </Col>
       <Col span={16}>
       <TopBar />

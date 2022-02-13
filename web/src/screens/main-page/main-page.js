@@ -1,5 +1,4 @@
 import { Layout, Menu } from 'antd';
-import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
 
 import Ebooks from '../../components/main-page/ebooks';
 import { useEffect, useState } from 'react';
@@ -15,6 +14,7 @@ function MainPage() {
   useEffect(() => {
     axios.get("/category/list?page=" + 1 + "&size=" + 100).then(
       (response) => {
+        // categorys.list: 分类的清单，树结构；categorys.total: 分类总量
         let categorys = response.data.content;
         categorys.list.forEach(element => {
           element.key = element.id;
@@ -23,12 +23,17 @@ function MainPage() {
         setCategories(categorys)
       }
     )
+
     axios.get("/ebook/list").then(
       (response) => {
         setEbooks(response.data.content)
       }
     )  
   }, [])
+
+  useEffect(() => {
+    console.log("debug mainpage, categories =", categories);
+  }, [categories])
 
   let handleClick = (e) => {
     if (e.key == 'all') {
@@ -65,7 +70,7 @@ function MainPage() {
                   return (
                     <SubMenu key={element.key} title={element.name}>
                       {
-                        element.children.map(c => {
+                        element.children?.map(c => {
                           return (
                             <Menu.Item key={c.key}>{c.name}</Menu.Item>
                           )
